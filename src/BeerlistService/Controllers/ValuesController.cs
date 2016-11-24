@@ -3,42 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using BeerlistService.Data;
 
 namespace BeerlistService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     public class ValuesController : Controller
     {
-        // GET api/values
+        //Liste auslesen
+        // GET api
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Person> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new DataSevice(false).DeSerializeObject<IEnumerable<Person>>();
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
+        //Schuld um 1 erhöhen
+        // PUT api/name1/inc/name2
+        [HttpPut("{name1}/inc/{name2}")]
+        public void Increase(string name1, string name2)
         {
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        //Schuld um 1 vermindern
+        // PUT api/name1/dec/name2
+        [HttpPut("{name1}/dec/{name2}")]
+        public void Decrease(string name1, string name2)
         {
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        // Person hinzufügen
+        // POST api/name/add
+        [HttpPost("{name}/add")]
+        public void Add(string name)
         {
         }
+
     }
 }
