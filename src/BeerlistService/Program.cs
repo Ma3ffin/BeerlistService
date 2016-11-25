@@ -13,8 +13,8 @@ namespace BeerlistService
     {
         public static void Main(string[] args)
         {
-            using (DataSevice service = new DataSevice(true))
-            {
+            //using (DataSevice service = new DataSevice(true))
+            //{
                 //List<Person> personlist = new List<Person>();
 
                 //Person alex = new Person { Name = "Alex" };
@@ -64,7 +64,8 @@ namespace BeerlistService
                 //personlist.Clear();
 
                 //personlist = service.DeSerializeObject<List<Person>>();
-            }
+            //}
+
             var host = new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())

@@ -16,7 +16,7 @@ namespace BeerlistService.Data
 
         public DataSevice(bool blocking)
         {
-            fileStream = File.Open("Data/data.json", FileMode.OpenOrCreate, FileAccess.ReadWrite, blocking ? FileShare.None : FileShare.Read);
+            fileStream = File.Open("Data/data.json", FileMode.OpenOrCreate, FileAccess.ReadWrite, blocking ? FileShare.None : FileShare.Read );
             
         }
 
@@ -24,6 +24,8 @@ namespace BeerlistService.Data
         public string SerializeObject<T>(T serializableObject)
         {
             string json = JsonConvert.SerializeObject(serializableObject);
+
+            fileStream.SetLength(0);
 
             var writer = new StreamWriter(fileStream);
             writer.Write(json);
