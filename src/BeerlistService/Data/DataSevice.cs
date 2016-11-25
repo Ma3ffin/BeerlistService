@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
@@ -16,7 +17,30 @@ namespace BeerlistService.Data
 
         public DataSevice(bool blocking)
         {
-            fileStream = File.Open("Data/data.json", FileMode.OpenOrCreate, FileAccess.ReadWrite, blocking ? FileShare.None : FileShare.Read );
+
+            bool success = false;
+            int retry = 0;
+
+            while (!success)
+            {
+                try
+                {
+                    fileStream = File.Open("Data/data.json", FileMode.OpenOrCreate, FileAccess.ReadWrite, blocking ? FileShare.None : FileShare.Read);
+                    success = true;
+                }
+                catch (Exception ex)
+                {
+                    if (retry < 3)
+                    {
+                        Thread.Sleep(10);
+                        retry++;
+                    }else
+                    {
+                        throw new Exception("Data Access Problem", ex);
+                    }
+                    
+                }
+            }
             
         }
 
