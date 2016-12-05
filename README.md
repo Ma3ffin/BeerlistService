@@ -1,7 +1,8 @@
 # Bierliste
 ## Problem
 Bei uns im Unternehmen gibt es Liste auf der Festgehalten wird wer, wem, wie viele Bier schuldet.
-Diese Liste galt es zu digitalisieren
+
+Diese Liste galt es zu digitalisieren.
 
 ## Technologien
 ### Backend
@@ -19,10 +20,10 @@ Diese Liste galt es zu digitalisieren
 Es wurde über das Visual Studio eine App Service API auf der Azure Cloud angelegt und ein Asp.net Core API Project deployed.
 
 Das REST Service bietet folgende Endpoints:
-- GET - Gesamte Bierliste wird zürückgegeben ()
-- PUT - Bierschuld um 1 erhöhen (Person 1, Person 2)
-- PUT - Bierschuld um 1 vermindern (Person 1, Person 2)
-- POST - Hinzufügen von eriner neuen Person (neue Person)
+- GetList - GET - Gesamte Bierliste wird zürückgegeben ()
+- Incement -PUT - Bierschuld um 1 erhöhen (Person 1, Person 2)
+- Decrement - PUT - Bierschuld um 1 vermindern (Person 1, Person 2)
+- Add - POST - Hinzufügen von eriner neuen Person (neue Person)
 
 ### Frontend
 - Es kann im Frontend eine neu Person zu der Bierliste hinzugefügt werden!
