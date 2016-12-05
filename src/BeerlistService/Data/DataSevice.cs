@@ -25,7 +25,8 @@ namespace BeerlistService.Data
             {
                 try
                 {
-                    fileStream = File.Open("../data/data.json", FileMode.OpenOrCreate, FileAccess.ReadWrite, blocking ? FileShare.None : FileShare.Read);
+                    //fileStream = File.Open("../data/data.json", FileMode.OpenOrCreate, FileAccess.ReadWrite, blocking ? FileShare.None : FileShare.Read);
+                    fileStream = File.Open("Data/data.json", FileMode.OpenOrCreate, FileAccess.ReadWrite, blocking ? FileShare.None : FileShare.Read);
                     success = true;
                 }
                 catch (Exception ex)
