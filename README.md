@@ -9,6 +9,7 @@ Diese Liste galt es zu digitalisieren.
 - Windows	Azure Cloud
 - Asp.net Core
 - Stellt REST Service zur verfügung
+- Speichert die Liste
 
 ### Frontend
 - Angular 2
@@ -18,6 +19,8 @@ Diese Liste galt es zu digitalisieren.
 
 ### Backend
 Es wurde über das Visual Studio eine App Service API auf der Azure Cloud angelegt und ein Asp.net Core API Project deployed.
+
+Ist für das Speichern und auslieferung der Bierliste zuständig.
 
 Das REST Service bietet folgende Endpoints:
 - GetList - GET - Gesamte Bierliste wird zürückgegeben ()
