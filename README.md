@@ -26,9 +26,11 @@ Das REST Service bietet folgende Endpoints:
 - GetList - GET - Gesamte Bierliste wird zürückgegeben ()
 - Incement -PUT - Bierschuld um 1 erhöhen (Person 1, Person 2)
 - Decrement - PUT - Bierschuld um 1 vermindern (Person 1, Person 2)
-- Add - POST - Hinzufügen von eriner neuen Person (neue Person)
+- Add - POST - Hinzufügen von einer neuen Person (neue Person)
+- Delete - DELETE - Entfernen einer Person (Person)
 
 ### Frontend
 - Es kann im Frontend eine neu Person zu der Bierliste hinzugefügt werden!
+- Es kann eine Person entfernt werden wenn niemand mehr bei ihr Schulden hat und die Person auch bei niemanden mehr Schulden hat.
 - Es kann die Bierliste angezeigt werden (Zu jeder Person wie viel ihr alle anderen Personen schulden)
 - Bei jedem Personen-Paar können die Schulden erhöht und verringert werden.
