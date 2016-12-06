@@ -26,6 +26,74 @@ namespace BeerlistService.Controllers
             return false;
         }
 
+        
+
+        public bool DeletePerson(List<Person> personlist, string name)
+        {
+            if (CanDeletePerson(personlist, name))
+            {
+                var deletePerson = new Person();
+                foreach (var person in personlist)
+                {
+                    var deleteSchuld = new Schuld();
+                    foreach (var item in person.Schuldnerliste)
+                    {
+                        if (item.Schuldner.Equals(name))
+                        {
+                            deleteSchuld = item;
+                        }
+                    }
+
+                    if (person.Name.Equals(name))
+                    {
+                        deletePerson = person;
+                    }
+                    else
+                    {
+                        person.Schuldnerliste.Remove(deleteSchuld);
+                    }
+                    
+                }
+                personlist.Remove(deletePerson);
+                SortPersonList(personlist);
+                return true;
+            }
+            return false;
+        }
+
+        public bool CanDeletePerson(List<Person> personlist, string name)
+        {
+            if (PersonExist(personlist, name) != null)
+            {
+                var ret = true;
+                foreach (var person in personlist)
+                {
+                    foreach (var item in person.Schuldnerliste)
+                    {
+                        if (item.Schuldner.Equals(name) && item.Value != 0)
+                        {
+                            ret = false;
+                        }
+                    }
+
+                    if (person.Name.Equals(name))
+                    {
+                        foreach (var item in person.Schuldnerliste)
+                        {
+                            if (item.Value != 0)
+                            {
+                                ret = false;
+                            }
+                        }
+                    }
+
+                }
+
+                return ret;
+            }
+            return false;
+        }
+
         public bool AddPerson(List<Person> personlist, string name)
         {
             if (PersonExist(personlist, name) == null)

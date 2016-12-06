@@ -17,7 +17,8 @@
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "System.Xml.XmlSerializer": "4.3.0",
     "System.Xml.XmlDocument": "4.0.1",
-    "Newtonsoft.Json": "9.0.1"
+    "Newtonsoft.Json": "9.0.1",
+    "Microsoft.AspNetCore.Mvc.WebApiCompatShim": "1.0.1"
   },
 
   "tools": {

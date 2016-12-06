@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BeerlistService.Data;
+using System.Net;
+using System.Web.Http;
 
 namespace BeerlistService.Controllers
 {
@@ -15,58 +17,81 @@ namespace BeerlistService.Controllers
         [HttpGet]
         public IEnumerable<Person> Get()
         {
-            IEnumerable<Person> personlist;
-            using (DataSevice service = new DataSevice(false))
-            {
-                personlist = service.DeSerializeObject<IEnumerable<Person>>();
-            }
+            try{
+                IEnumerable<Person> personlist;
+                using (DataSevice service = new DataSevice(false))
+                {
+                    personlist = service.DeSerializeObject<IEnumerable<Person>>();
+                }
 
-            return personlist;
+                return personlist;
+            }
+            catch (Exception)
+            {
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
+            }
         }
 
         //Schuld um 1 erhöhen
         // PUT api/name1/inc/name2
         [HttpPut("{getperson}/inc/{oweperson}")]
-        public bool Increase(string getperson, string oweperson)
+        public void Increase(string getperson, string oweperson)
         {
-            List<Person> personlist = new List<Person>();
-            Manager incManager = new Manager();
-            bool ret = false;
-
-            using (DataSevice service = new DataSevice(true))
+            if (this.Request.Method == "PUT")
             {
-                personlist = service.DeSerializeObject<List<Person>>();
+                try {
+                        List<Person> personlist = new List<Person>();
+                        Manager incManager = new Manager();
+                        bool ret = false;
 
-                if (incManager.ChangeValue(personlist, getperson, oweperson, (s) => s.Value++))
+                        using (DataSevice service = new DataSevice(true))
+                        {
+                            personlist = service.DeSerializeObject<List<Person>>();
+
+                            if (incManager.ChangeValue(personlist, getperson, oweperson, (s) => s.Value++))
+                            {
+                                service.SerializeObject<List<Person>>(personlist);
+                            }
+                        }
+                    }
+                
+                catch (Exception)
                 {
-                    service.SerializeObject<List<Person>>(personlist);
-                    ret = true;
+                    throw new HttpResponseException(HttpStatusCode.InternalServerError);
                 }
             }
-
-            return ret;
         }
 
         //Schuld um 1 vermindern
         // PUT api/name1/dec/name2
         [HttpPut("{getperson}/dec/{oweperson}")]
-        public bool Decrease(string getperson, string oweperson)
+        public void Decrease(string getperson, string oweperson)
         {
-            List<Person> personlist = new List<Person>();
-            Manager incManager = new Manager();
-            bool ret = false;
-
-            using (DataSevice service = new DataSevice(true))
+            var x = this.Request.Method;
+            if (this.Request.Method == "PUT")
             {
-                personlist = service.DeSerializeObject<List<Person>>();
-
-                if (incManager.ChangeValue(personlist, getperson, oweperson, (s) => s.Value = Math.Max(s.Value - 1, 0)))
+                try
                 {
-                    service.SerializeObject<List<Person>>(personlist);
-                    ret = true;
+                    List<Person> personlist = new List<Person>();
+                    Manager incManager = new Manager();
+
+                    using (DataSevice service = new DataSevice(true))
+                    {
+                        personlist = service.DeSerializeObject<List<Person>>();
+
+                        if (incManager.ChangeValue(personlist, getperson, oweperson, (s) => s.Value = Math.Max(s.Value - 1, 0)))
+                        {
+                            service.SerializeObject<List<Person>>(personlist);
+                        }
+                    }
+
                 }
+                catch (Exception)
+                {
+                    throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                }
+               
             }
-            return ret;
         }
 
         // Person hinzufügen
@@ -75,18 +100,59 @@ namespace BeerlistService.Controllers
         public IEnumerable<Person> Add(string name)
         {
             List<Person> personlist = new List<Person>();
-            Manager incManager = new Manager();
-
-            using (DataSevice service = new DataSevice(true))
+            if (this.Request.Method == "POST")
             {
-                personlist = service.DeSerializeObject<List<Person>>();
-
-                if (incManager.AddPerson(personlist, name))
+                try
                 {
-                    service.SerializeObject<List<Person>>(personlist);
-                }
-            }
+                    Manager incManager = new Manager();
 
+                    using (DataSevice service = new DataSevice(true))
+                    {
+                        personlist = service.DeSerializeObject<List<Person>>();
+
+                        if (incManager.AddPerson(personlist, name))
+                        {
+                            service.SerializeObject<List<Person>>(personlist);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                }
+               
+            }
+            return personlist;
+        }
+
+        // Person Löschen
+        // POST api/name/delete
+        [HttpDelete("{name}/delete")]
+        public IEnumerable<Person> Delete(string name)
+        {
+            List<Person> personlist = new List<Person>();
+            if (this.Request.Method == "DELETE")
+            {
+                try
+                {
+                    Manager incManager = new Manager();
+
+                    using (DataSevice service = new DataSevice(true))
+                    {
+                        personlist = service.DeSerializeObject<List<Person>>();
+
+                        if (incManager.DeletePerson(personlist, name))
+                        {
+                            service.SerializeObject<List<Person>>(personlist);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    throw new HttpResponseException(HttpStatusCode.InternalServerError);
+                }
+
+            }
             return personlist;
         }
 
